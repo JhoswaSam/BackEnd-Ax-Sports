@@ -1,5 +1,5 @@
 import { HorarioController } from "../controllers/horarios.controller";
-import { RouterBase } from "./router";
+import { RouterBase } from "../config/router";
 
 export class HorarioRouter extends RouterBase<HorarioController>{
     constructor(){

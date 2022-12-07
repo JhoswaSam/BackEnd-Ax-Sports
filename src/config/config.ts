@@ -1,6 +1,7 @@
 import * as dotenv from "dotenv";
 import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { Connection, createConnection } from "typeorm";
 
 export abstract class ConfigServer{
     constructor(){
@@ -75,5 +76,9 @@ export abstract class ConfigServer{
             logging: false,
             namingStrategy: new SnakeNamingStrategy()
         }
+    }
+
+    async bdConnection(): Promise<Connection> {
+        return await createConnection(this.typeORMConfig);
     }
 }

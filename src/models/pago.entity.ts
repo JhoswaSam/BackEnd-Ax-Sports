@@ -9,6 +9,9 @@ export class PagoEntity extends EntityBase{
     @Column()
     mes!:string;
 
+    @Column()
+    pagoTotal!:number;
+
     @ManyToOne(() => ResponsableEconomicoEntity, (responsableEconomico) => responsableEconomico.pagos)
     responsableEconomico!: ResponsableEconomicoEntity
 

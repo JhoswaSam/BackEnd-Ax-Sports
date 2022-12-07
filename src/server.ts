@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { HorarioRouter } from "./router/horario.route";
 import { ConfigServer } from "./config/config";
-import { Connection, createConnection } from "typeorm";
+import { TipoRouter } from "./router/tipo.route";
 
 
 /**
@@ -29,13 +29,11 @@ class ServerBootstrap extends ConfigServer{
         this.listen();
     }
 
-    async bdConnection(): Promise<Connection> {
-        return await createConnection(this.typeORMConfig);
-    }
 
     private routers(): Array<express.Router>{
         return [//Rutas de los controladores
             new HorarioRouter().router,
+            new TipoRouter().router,
         ];
     }
 
