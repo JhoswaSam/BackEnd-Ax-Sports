@@ -3,6 +3,7 @@ import { Entity, Column, OneToOne, JoinColumn, ManyToOne, OneToMany } from "type
 import { PersonaEntity } from "./persona.entity";
 import { ResponsableEconomicoEntity } from "./responsableEconomico.entity";
 import { InscripcionEntity } from "./inscripcion.entity";
+import { PuntajeEntity } from "./puntaje.entity";
 
 @Entity({ name: "estudiante" })
 export class EstudianteEntity extends EntityBase{
@@ -22,4 +23,7 @@ export class EstudianteEntity extends EntityBase{
 
     @OneToMany(() => InscripcionEntity, (inscripciones) => inscripciones.estudiante)
     inscripciones!: InscripcionEntity[]
+
+    @OneToMany(() => PuntajeEntity, (puntajes) => puntajes.estudiante)
+    puntajes!: PuntajeEntity[];
 }

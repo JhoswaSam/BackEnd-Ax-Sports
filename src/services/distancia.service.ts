@@ -1,9 +1,10 @@
 import { ServiceBase } from "../config/base.service";
 import { TipoDTO } from "../dto/tipo.dto";
+import { DistanciaEntity } from "../models/distancia.entity";
 import { TipoEntity } from "../models/tipo.entity";
 import { CRUD } from "./interface/crud.interface";
 
-export class TipoService extends ServiceBase<TipoEntity> implements CRUD<TipoEntity, TipoDTO>{
+export class DistanciaService extends ServiceBase<DistanciaEntity> implements CRUD<DistanciaEntity, TipoDTO>{
     constructor(){
         super(TipoEntity);
     }
