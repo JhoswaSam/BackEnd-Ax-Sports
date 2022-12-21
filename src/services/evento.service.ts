@@ -1,11 +1,11 @@
 import { ServiceBase } from "../config/base.service";
-import { DistanciaDTO } from "../dto/distancia.dto";
-import { DistanciaEntity } from "../models/distancia.entity";
+import { EventoDTO } from "../dto/evento.dto";
+import { EventoEntity } from "../models/evento.entity";
 import { CRUD } from "./interface/crud.interface";
 
-export class DistanciaService extends ServiceBase<DistanciaEntity> implements CRUD<DistanciaEntity, DistanciaDTO>{
+export class EventoService extends ServiceBase<EventoEntity> implements CRUD<EventoEntity, EventoDTO>{
     constructor(){
-        super(DistanciaEntity);
+        super(EventoEntity);
     }
 
     async findAll(){
@@ -16,11 +16,11 @@ export class DistanciaService extends ServiceBase<DistanciaEntity> implements CR
         return (await this.execRepository).findOne({where: { id } });
     }
 
-    async create(body: DistanciaDTO){
+    async create(body: EventoDTO){
         return (await this.execRepository).save(body);
     }
 
-    async update(id:string, body:DistanciaDTO){
+    async update(id:string, body:EventoDTO){
         return (await this.execRepository).update(id,body);
     }
 
