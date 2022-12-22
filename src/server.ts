@@ -13,6 +13,7 @@ import { EstudianteRouter } from "./router/estudiante.route";
 import { PuntajeRouter } from "./router/puntaje.route";
 import { PagoRouter } from "./router/pago.route";
 import { InscripcionRouter } from "./router/inscripcion.route";
+import { DataSource } from "typeorm";
 
 
 /**
@@ -29,10 +30,9 @@ class ServerBootstrap extends ConfigServer{
         super();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended : true }));
+        this.bdConnection();
         this.app.use(morgan('dev'));
         this.app.use(cors());
-
-        this.bdConnection();
 
         this.app.use('/api',this.routers())
         this.listen();
@@ -56,10 +56,18 @@ class ServerBootstrap extends ConfigServer{
         ];
     }
 
+    async bdConnection():Promise<DataSource | void>{
+        return this.initConnection.then(()=>{
+            console.log("Connect success");
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+
     //Puerto escucha
     public listen(): void{
         this.app.listen(this.port,()=>{
-            console.log("Servidor escuchando en el puerto : "+this.port);
+            console.log("Server listening on port : "+this.port);
         });        
     }
 

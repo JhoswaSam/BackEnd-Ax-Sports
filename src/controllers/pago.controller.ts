@@ -1,17 +1,22 @@
 import { Request, Response } from "express";
 import { PagoService } from "../services/pago.service";
+import { HttpResponse } from "../config/app/response/http.response";
 
 export class PagoController{
-    constructor(private readonly pagoService: PagoService = new PagoService()){
-
-    }
+    constructor(
+        private readonly pagoService: PagoService = new PagoService(), 
+        private readonly httpResponse: HttpResponse = new HttpResponse()
+    ){  }
 
     async getPagos(req: Request, res: Response) {
         try {
             const data = await this.pagoService.findAll();
-            res.status(200).json(data);
+            if (data.length === 0) {
+                return this.httpResponse.NotFound(res, "No existen datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -19,18 +24,21 @@ export class PagoController{
         const {id}= req.params;
         try {
             const data = await this.pagoService.findbyid(id);
-            res.status(200).json(data);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
     async createPago(req: Request, res: Response) {
         try {
             const data = await this.pagoService.create(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -38,9 +46,13 @@ export class PagoController{
         const {id}= req.params;
         try {
             const data = await this.pagoService.update(id,req.body);
-            res.status(200).json(data);
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -48,9 +60,13 @@ export class PagoController{
         const {id}= req.params;
         try {
             const data = await this.pagoService.delete(id);
-            res.status(200).json(data);
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 }

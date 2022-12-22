@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv";
-import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
-import { SnakeNamingStrategy } from "typeorm-naming-strategies";
-import { Connection, createConnection } from "typeorm";
+import { DataSource } from "typeorm";
+import { AppDataSourece } from "./data.source";
 
 export abstract class ConfigServer{
     constructor(){
@@ -55,30 +54,7 @@ export abstract class ConfigServer{
     }
 
 
-    /**
-     *  BD_PORT = 3306
-        BD_HOST = localhost
-        BD_DATABASE= bd_alpha_sports
-        BD__USER=root
-        BD_PASSWORD=root
-     */
-    public get typeORMConfig():MysqlConnectionOptions{
-        return {
-            type: "mysql",
-            host: this.getEnviroment("BD_HOST"),
-            port: this.getNumberEnv("BD_PORT"),
-            username: this.getEnviroment("BD_USER"),
-            password: this.getEnviroment("BD_PASSWORD"),
-            database:this.getEnviroment("BD_DATABASE"),
-            entities: [__dirname+"/../**/*.entity{.ts,.js}"],
-            migrations: [__dirname+"/../../migrations/*{.ts,.js}"],
-            synchronize: true,
-            logging: false,
-            namingStrategy: new SnakeNamingStrategy()
-        }
-    }
-
-    async bdConnection(): Promise<Connection> {
-        return await createConnection(this.typeORMConfig);
+    get initConnection(): Promise<DataSource> {
+        return AppDataSourece.initialize()
     }
 }

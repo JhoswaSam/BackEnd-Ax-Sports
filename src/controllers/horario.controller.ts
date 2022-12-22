@@ -1,17 +1,22 @@
 import { Request, Response } from "express";
 import { HorarioService } from "../services/horario.service";
+import { HttpResponse } from "../config/app/response/http.response";
 
 export class HorarioController{
-    constructor(private readonly horarioService: HorarioService = new HorarioService()){
-
-    }
+    constructor(
+        private readonly horarioService: HorarioService = new HorarioService(), 
+        private readonly httpResponse: HttpResponse = new HttpResponse()
+    ){   }
 
     async getHorarios(req: Request, res: Response) {
         try {
             const data = await this.horarioService.findAll();
-            res.status(200).json(data);
+            if (data.length === 0) {
+                return this.httpResponse.NotFound(res, "No existen datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -19,18 +24,21 @@ export class HorarioController{
         const {id}= req.params;
         try {
             const data = await this.horarioService.findbyid(id);
-            res.status(200).json(data);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
     async createHorario(req: Request, res: Response) {
         try {
             const data = await this.horarioService.create(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -38,9 +46,14 @@ export class HorarioController{
         const {id}= req.params;
         try {
             const data = await this.horarioService.update(id,req.body);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -48,9 +61,14 @@ export class HorarioController{
         const {id}= req.params;
         try {
             const data = await this.horarioService.delete(id);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 }

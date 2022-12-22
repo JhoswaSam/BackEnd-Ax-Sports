@@ -1,17 +1,22 @@
 import { Request, Response } from "express";
 import { TipoService } from "../services/tipo.service";
+import { HttpResponse } from "../config/app/response/http.response";
 
 export class TipoController{
-    constructor(private readonly tipoService: TipoService = new TipoService()){
-
-    }
+    constructor(
+        private readonly tipoService: TipoService = new TipoService(), 
+        private readonly httpResponse: HttpResponse = new HttpResponse()
+    ){  }
 
     async getTipos(req: Request, res: Response) {
         try {
             const data = await this.tipoService.findAll();
-            res.status(200).json(data);
+            if (data.length === 0) {
+                return this.httpResponse.NotFound(res, "No existen datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -19,18 +24,21 @@ export class TipoController{
         const {id}= req.params;
         try {
             const data = await this.tipoService.findbyid(id);
-            res.status(200).json(data);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
     async createTipo(req: Request, res: Response) {
         try {
             const data = await this.tipoService.create(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -38,9 +46,13 @@ export class TipoController{
         const {id}= req.params;
         try {
             const data = await this.tipoService.update(id,req.body);
-            res.status(200).json(data);
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -48,9 +60,13 @@ export class TipoController{
         const {id}= req.params;
         try {
             const data = await this.tipoService.delete(id);
-            res.status(200).json(data);
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 }

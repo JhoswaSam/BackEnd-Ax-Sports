@@ -1,17 +1,23 @@
 import { Request, Response } from "express";
 import { DistanciaService } from "../services/distancia.service";
+import { HttpResponse } from "../config/app/response/http.response";
+import { DeleteResult, UpdateResult } from "typeorm";
 
 export class DistanciaController{
-    constructor(private readonly distanciaService: DistanciaService = new DistanciaService()){
-
-    }
+    constructor(
+        private readonly distanciaService: DistanciaService = new DistanciaService(), 
+        private readonly httpResponse: HttpResponse = new HttpResponse()
+    ){   }
 
     async getDistancias(req: Request, res: Response) {
         try {
             const data = await this.distanciaService.findAll();
-            res.status(200).json(data);
+            if (data.length ===0) {
+                return this.httpResponse.NotFound(res, "No existen datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -19,18 +25,21 @@ export class DistanciaController{
         const {id}= req.params;
         try {
             const data = await this.distanciaService.findbyid(id);
-            res.status(200).json(data);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
     async createDistancia(req: Request, res: Response) {
         try {
             const data = await this.distanciaService.create(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -38,9 +47,14 @@ export class DistanciaController{
         const {id}= req.params;
         try {
             const data = await this.distanciaService.update(id,req.body);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -48,9 +62,14 @@ export class DistanciaController{
         const {id}= req.params;
         try {
             const data = await this.distanciaService.delete(id);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 }

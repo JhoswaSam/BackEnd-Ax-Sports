@@ -1,17 +1,22 @@
 import { Request, Response } from "express";
 import { EstudianteService } from "../services/estudiante.service";
+import { HttpResponse } from "../config/app/response/http.response";
 
 export class EstudianteController{
-    constructor(private readonly estudianteService: EstudianteService = new EstudianteService()){
-
-    }
+    constructor(
+        private readonly estudianteService: EstudianteService = new EstudianteService(), 
+        private readonly httpResponse: HttpResponse = new HttpResponse()
+    ){   }
 
     async getEstudiantes(req: Request, res: Response) {
         try {
             const data = await this.estudianteService.findAll();
-            res.status(200).json(data);
+            if (data.length === 0) {
+                return this.httpResponse.NotFound(res, "No existen datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -19,18 +24,21 @@ export class EstudianteController{
         const {id}= req.params;
         try {
             const data = await this.estudianteService.findbyid(id);
-            res.status(200).json(data);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
     async createEstudiante(req: Request, res: Response) {
         try {
             const data = await this.estudianteService.create(req.body);
-            res.status(200).json(data);
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -38,9 +46,14 @@ export class EstudianteController{
         const {id}= req.params;
         try {
             const data = await this.estudianteService.update(id,req.body);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 
@@ -48,9 +61,14 @@ export class EstudianteController{
         const {id}= req.params;
         try {
             const data = await this.estudianteService.delete(id);
-            res.status(200).json(data);
+            
+            if (!data.affected) {
+                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+            }
+
+            return this.httpResponse.Ok(res, data)
         } catch (e) {
-            console.log(e);
+            return this.httpResponse.NotFound(res, e)
         }
     }
 }
