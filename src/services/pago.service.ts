@@ -1,11 +1,11 @@
 import { ServiceBase } from "../config/base.service";
-import { UsuarioDTO } from "../dto/usuario.dto";
-import { UsuarioEntity } from "../models/usuario.entity";
+import { PagoDTO } from "../dto/pago.dto";
+import { PagoEntity } from "../models/pago.entity";
 import { CRUD } from "./interface/crud.interface";
 
-export class UsuarioService extends ServiceBase<UsuarioEntity> implements CRUD<UsuarioEntity, UsuarioDTO>{
+export class PagoService extends ServiceBase<PagoEntity> implements CRUD<PagoEntity, PagoDTO>{
     constructor(){
-        super(UsuarioEntity);
+        super(PagoEntity);
     }
 
     async findAll(){
@@ -16,11 +16,11 @@ export class UsuarioService extends ServiceBase<UsuarioEntity> implements CRUD<U
         return (await this.execRepository).findOne({where: { id } });
     }
 
-    async create(body: UsuarioDTO){
+    async create(body: PagoDTO){
         return (await this.execRepository).save(body);
     }
 
-    async update(id:string, body:UsuarioDTO){
+    async update(id:string, body:PagoDTO){
         return (await this.execRepository).update(id,body);
     }
 

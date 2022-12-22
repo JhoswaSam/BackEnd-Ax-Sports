@@ -6,10 +6,13 @@ import { ConfigServer } from "./config/config";
 import { TipoRouter } from "./router/tipo.route";
 import { DistanciaRouter } from "./router/distancia.route";
 import { EventoRouter } from "./router/evento.route";
-import { UsuarioRouter } from "./router/usuario.route";
 import { SedeRouter } from "./router/sede.route";
-import { PersonaRouter } from "./router/persona.route";
 import { AdministradorRouter } from "./router/administrador.route";
+import { ResponsableEconomicoRouter } from "./router/responsableEconomico.route";
+import { EstudianteRouter } from "./router/estudiante.route";
+import { PuntajeRouter } from "./router/puntaje.route";
+import { PagoRouter } from "./router/pago.route";
+import { InscripcionRouter } from "./router/inscripcion.route";
 
 
 /**
@@ -43,10 +46,13 @@ class ServerBootstrap extends ConfigServer{
             new TipoRouter().router,
             new DistanciaRouter().router,
             new EventoRouter().router,
-            new UsuarioRouter().router,
             new SedeRouter().router,
-            new PersonaRouter().router,
             new AdministradorRouter().router,
+            new ResponsableEconomicoRouter().router,
+            new EstudianteRouter().router,
+            new PuntajeRouter().router,
+            new PagoRouter().router,
+            new InscripcionRouter().router,
         ];
     }
 

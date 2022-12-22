@@ -1,4 +1,4 @@
-import {PrimaryGeneratedColumn, CreateDateColumn } from "typeorm"
+import {PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"
 
 export abstract class EntityBase{
 
@@ -11,7 +11,7 @@ export abstract class EntityBase{
     })
     createdAd!: Date;
 
-    @CreateDateColumn({
+    @UpdateDateColumn({
         name:"update_ad",
         type:"timestamp"
     })

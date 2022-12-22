@@ -7,7 +7,7 @@ import { EstudianteEntity } from "./estudiante.entity";
 @Entity({ name: "puntaje" })
 export class PuntajeEntity extends EntityBase{
     
-    @Column()
+    @Column({ type:"timestamp" , nullable: true })
     fecha!:Date;
 
     @ManyToOne(() => DistanciaEntity, (distancia) => distancia.puntajes)
@@ -18,4 +18,5 @@ export class PuntajeEntity extends EntityBase{
 
     @ManyToOne(() => EstudianteEntity, (estudiante) => estudiante.puntajes)
     estudiante!: EstudianteEntity
+    
 }

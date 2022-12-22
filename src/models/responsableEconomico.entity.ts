@@ -1,21 +1,17 @@
 import { EntityBase } from "../config/base.entity";
 import { Entity, Column, OneToOne, JoinColumn, OneToMany } from "typeorm"
-import { UsuarioEntity } from "./usuario.entity";
+import { UsuarioEntity } from "./abstract/usuario.entity";
 import { EstudianteEntity } from "./estudiante.entity";
 import { PagoEntity } from "./pago.entity";
 
 @Entity({ name: "responsableEconomico" })
-export class ResponsableEconomicoEntity extends EntityBase{
+export class ResponsableEconomicoEntity extends UsuarioEntity{
     
     @Column()
     nombre!:string;
 
     @Column()
     apellidos!:string;
-
-    @OneToOne(() => UsuarioEntity)
-    @JoinColumn()
-    usuario!: UsuarioEntity
 
     @OneToMany(() => EstudianteEntity, (estudiantes) => estudiantes.responsableEconomico)
     estudiantes!: EstudianteEntity[]
