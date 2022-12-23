@@ -3,9 +3,10 @@ import * as dotenv from "dotenv";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 dotenv.config({
-    path: process.env.NODE_ENV !== undefined ? 
-    `.${process.env.NODE_ENV.trim()}.env`
-    : ".env"
+    path: 
+        process.env.NODE_ENV !== undefined 
+        ? `.${process.env.NODE_ENV.trim()}.env`
+        : ".env",
 })
 
 const Config :DataSourceOptions = {
@@ -16,7 +17,7 @@ const Config :DataSourceOptions = {
     password: process.env.BD_PASSWORD,
     database: process.env.BD_DATABASE,
     entities: [__dirname+"/../**/*.entity{.ts,.js}"],
-    migrations: [__dirname+"/../../migrations/*{.ts,.js}"],
+    migrations: [__dirname+"/../migrations/*{.ts,.js}"],
     synchronize: false,
     migrationsRun: true,
     logging: false,
