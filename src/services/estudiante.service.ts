@@ -28,4 +28,16 @@ export class EstudianteService extends ServiceBase<EstudianteEntity> implements 
         return (await this.execRepository).delete({id});
     }
 
+    /**
+     * === PETITIONS WITH RELATION ===
+     */
+
+    async findEstudianteWithSede(id: string):Promise<EstudianteEntity | null>{
+        return (await this.execRepository)
+            .createQueryBuilder('estudiante')
+            .leftJoinAndSelect('estudiante.sede','sede')
+            .where({ id })
+            .getOne();
+    }
+
 }

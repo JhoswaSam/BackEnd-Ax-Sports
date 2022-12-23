@@ -12,5 +12,9 @@ export class EstudianteRouter extends RouterBase<EstudianteController>{
         this.router.post('/createEstudiante',(req,res)=>this.controller.createEstudiante(req,res));
         this.router.put('/updateEstudiante/:id',(req,res)=>this.controller.updateEstudiante(req,res));
         this.router.delete('/deleteEstudiante/:id',(req,res)=>this.controller.deteleEstudiante(req,res));
+        /**
+         *  ROUTES OF THE RELATIONS
+         */
+        this.router.get('/estudianteSede/:id',(req,res)=>this.controller.findEstudianteWithSede(req,res));
     }
 }

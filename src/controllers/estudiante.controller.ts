@@ -71,4 +71,25 @@ export class EstudianteController{
             return this.httpResponse.NotFound(res, e)
         }
     }
+
+    /**
+     *  CONTROLLERS OF THE RELATIONS
+     */
+
+
+    /**
+     * @returns Estudiante con la sede a la que pertenece
+     */
+    async findEstudianteWithSede(req: Request, res: Response) {
+        const {id}= req.params;
+        try {
+            const data = await this.estudianteService.findEstudianteWithSede(id);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
+            return this.httpResponse.Ok(res, data)
+        } catch (e) {
+            return this.httpResponse.NotFound(res, e)
+        }
+    }
 }
