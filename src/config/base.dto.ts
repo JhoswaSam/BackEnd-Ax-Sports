@@ -1,5 +1,4 @@
-import { IsOptional } from "class-validator";
-import { IsDate, IsUUID } from "class-validator/types/decorator/decorators";
+import { IsOptional, IsDate, IsUUID  } from "class-validator";
 
 export class DTOBase{
 

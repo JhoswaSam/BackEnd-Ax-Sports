@@ -18,6 +18,9 @@ export class HorarioEntity extends EntityBase{
     @Column()
     hora!:string;
 
+    @Column()
+    horaFin!:string;
+
     @OneToMany(() => InscripcionEntity, (inscripciones) => inscripciones.horario)
     inscripciones!: InscripcionEntity[]
 
