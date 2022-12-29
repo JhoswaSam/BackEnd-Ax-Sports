@@ -15,5 +15,8 @@ export class AdministradorRouter extends RouterBase<AdministradorController, Adm
         
         this.router.put('/updateAdministrador/:id',(req,res)=>this.controller.updateAdministrador(req,res));
         this.router.delete('/deleteAdministrador/:id',(req,res)=>this.controller.deteleAdministrador(req,res));
+
+        this.router.post("/administradorwithtipo",(req,res)=>this.controller.findAdministradorWithTipo(req,res));
+        
     }
 }

@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { InscripcionDTO } from "../dto/inscripcion.dto";
 import { InscripcionEntity } from "../models/inscripcion.entity";
-import { CRUD } from "./interface/crud.interface";
+import { CRUD } from "../app/interfaces/crud.interface";
 
 export class InscripcionService extends ServiceBase<InscripcionEntity> implements CRUD<InscripcionEntity, InscripcionDTO>{
     constructor(){

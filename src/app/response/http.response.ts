@@ -48,4 +48,20 @@ export class HttpResponse {
       error: data,
     });
   }
+
+  UserOk(res: Response, data?: any): Response {
+    return res.status(HttpStatus.OK).json({
+      status: HttpStatus.OK,
+      statusMsg: "Valid access",
+      data: data,
+    });
+  }
+
+  UserDenied(res: Response, data?: any): Response {
+    return res.status(HttpStatus.FORBIDDEN).json({
+      status: HttpStatus.FORBIDDEN,
+      statusMsg: "access denied",
+      data: data,
+    });
+  }
 }

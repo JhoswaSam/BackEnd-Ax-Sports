@@ -1,6 +1,6 @@
 import { NextFunction ,Request, Response } from "express";
 import { validate } from "class-validator";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 import { TipoDTO } from "../dto/tipo.dto";
 
 export class TipoMiddleware{

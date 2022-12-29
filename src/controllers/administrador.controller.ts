@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AdministradorService } from "../services/administrador.service";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
 
 export class AdministradorController{
@@ -67,6 +67,20 @@ export class AdministradorController{
                 return this.httpResponse.NotFound(res, "Hay un error al actualizar")
             }
 
+            return this.httpResponse.Ok(res, data)
+        } catch (e) {
+            return this.httpResponse.NotFound(res, e)
+        }
+    }
+
+
+    async findAdministradorWithTipo(req: Request, res: Response) {
+        const {id}= req.params;
+        try {
+            const data = await this.administradorService.findAdminWithTipo(id);
+            if (!data) {
+                return this.httpResponse.NotFound(res, "No existe datos")
+            }
             return this.httpResponse.Ok(res, data)
         } catch (e) {
             return this.httpResponse.NotFound(res, e)

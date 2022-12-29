@@ -6,7 +6,7 @@ export abstract class UsuarioEntity extends EntityBase{
     @Column()
     usuario!:string;
 
-    @Column()
+    @Column({select: false})
     contrasenia!:string;
 
 }

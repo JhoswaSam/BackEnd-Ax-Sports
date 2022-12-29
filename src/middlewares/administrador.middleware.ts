@@ -1,6 +1,6 @@
 import { NextFunction ,Request, Response } from "express";
 import { validate } from "class-validator";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 import { AdministradorDTO } from "../dto/administrador.dto";
 
 export class AdministradorMiddleware{
@@ -9,7 +9,7 @@ export class AdministradorMiddleware{
     ){  }
     
     AdministradorValidator(req: Request, res: Response, next: NextFunction){
-        const {nombre, apellidos, dni, telefono, fechaNacimiento,usuario,contrasenia,tipo,sede} = req.body;
+        const {nombre, apellidos, dni, telefono,usuario,contrasenia,tipo,sede} = req.body;
 
         const valid = new AdministradorDTO()
 
@@ -17,7 +17,6 @@ export class AdministradorMiddleware{
         valid.apellidos = apellidos;
         valid.dni = dni;
         valid.telefono = telefono;
-        valid.fechaNacimiento = fechaNacimiento;
         valid.usuario = usuario;
         valid.contrasenia = contrasenia;
         valid.tipo = tipo;

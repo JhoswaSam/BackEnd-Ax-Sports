@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { SedeDTO } from "../dto/sede.dto";
 import { SedeEntity } from "../models/sede.entity";
-import { CRUD } from "./interface/crud.interface";
+import { CRUD } from "../app/interfaces/crud.interface";
 
 export class SedeService extends ServiceBase<SedeEntity> implements CRUD<SedeEntity, SedeDTO>{
     constructor(){

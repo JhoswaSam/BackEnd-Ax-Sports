@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PuntajeService } from "../services/puntaje.service";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 
 export class PuntajeController{
     constructor(

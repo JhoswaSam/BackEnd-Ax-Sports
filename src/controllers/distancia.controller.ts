@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { DistanciaService } from "../services/distancia.service";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
 
 export class DistanciaController{

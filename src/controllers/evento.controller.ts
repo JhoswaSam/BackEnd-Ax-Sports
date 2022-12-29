@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { EventoService } from "../services/evento.service";
-import { HttpResponse } from "../config/app/response/http.response";
+import { HttpResponse } from "../app/response/http.response";
 
 export class EventoController{
     constructor(

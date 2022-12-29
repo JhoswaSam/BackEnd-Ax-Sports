@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { HorarioDTO } from "../dto/horario.dto";
 import { HorarioEntity } from "../models/horario.entity";
-import { CRUD } from "./interface/crud.interface";
+import { CRUD } from "../app/interfaces/crud.interface";
 
 export class HorarioService extends ServiceBase<HorarioEntity> implements CRUD<HorarioEntity, HorarioDTO>{
     constructor(){

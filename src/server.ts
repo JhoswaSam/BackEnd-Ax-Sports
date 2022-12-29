@@ -15,6 +15,8 @@ import { PuntajeRouter } from "./router/puntaje.route";
 import { PagoRouter } from "./router/pago.route";
 import { InscripcionRouter } from "./router/inscripcion.route";
 import { DataSource } from "typeorm";
+import { AuthAdminRouter } from "./auth/router/authAdmin.router";
+import cookieParser from "cookie-parser";
 
 
 /**
@@ -31,9 +33,17 @@ class ServerBootstrap extends ConfigServer{
         super();
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended : true }));
+        this.app.use(cookieParser())
         this.bdConnection();
         this.app.use(morgan('dev'));
-        this.app.use(cors());
+        
+        this.app.use(
+            cors({
+              origin: true,
+              methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+              credentials: true,
+            })
+          );
 
         this.app.use('/api',this.routers())
         this.listen();
@@ -54,6 +64,7 @@ class ServerBootstrap extends ConfigServer{
             new PuntajeRouter().router,
             new PagoRouter().router,
             new InscripcionRouter().router,
+            new AuthAdminRouter().router,
         ];
     }
 
