@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { ResponsableEconomicoDTO } from "../dto/responsableEconomico.dto";
 import { ResponsableEconomicoEntity } from "../models/responsableEconomico.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class ResponsableEconomicoService extends ServiceBase<ResponsableEconomicoEntity> implements CRUD<ResponsableEconomicoEntity, ResponsableEconomicoDTO>{
     constructor(){

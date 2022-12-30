@@ -2,7 +2,7 @@ import { ServiceBase } from "../config/base.service";
 import * as bcrypt from "bcrypt";
 import { AdministradorDTO } from "../dto/administrador.dto";
 import { AdministradorEntity } from "../models/administrador.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 import { TipoEntity } from "../models/tipo.entity";
 
 export class AdministradorService extends ServiceBase<AdministradorEntity> implements CRUD<AdministradorEntity, AdministradorDTO>{

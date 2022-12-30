@@ -3,7 +3,7 @@ import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt"
 import { AdministradorService } from "../../services/administrador.service";
 import { AdministradorEntity } from "../../models/administrador.entity";
-import { PayloadTokenAdmin } from "../../app/interfaces/authAdmin.interface";
+import { PayloadTokenAdmin } from "../../shared/interfaces/authAdmin.interface";
 
 export class AuthAdminService extends ConfigServer{
     constructor(

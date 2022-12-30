@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HorarioService } from "../services/horario.service";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 
 export class HorarioController{
     constructor(

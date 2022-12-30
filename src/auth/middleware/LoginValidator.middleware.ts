@@ -1,9 +1,10 @@
 import { NextFunction ,Request, Response } from "express";
 import { Validate, validate } from "class-validator";
-import { HttpResponse } from "../../app/response/http.response";
+import { HttpResponse } from "../../shared/response/http.response";
 import { AdministradorDTO } from "../../dto/administrador.dto";
 import { AuthAdminService } from "../services/authAdmin.service";
 import { AdministradorEntity } from "../../models/administrador.entity";
+import { UserDto } from "../dto/user.dto";
 
 
 export class LoginValidatorMiddleware{
@@ -13,14 +14,20 @@ export class LoginValidatorMiddleware{
     ){  }
     
     validateAdmin(req: Request, res: Response, next: NextFunction){
-        const user =  req.body;
+        const {usuario,contrasenia} =  req.body;
 
-        const dataUser = this.loginService.validateUser(user)
-        if (!dataUser) {
-            return this.httpResponse.Error(res,"Usuario o contraseña incorrecta")
-        }else{
-            next()
-        }
+        const valid = new UserDto();
+
+        valid.usuario = usuario;
+        valid.contrasenia = contrasenia;
+
+        validate(valid).then((err)=>{
+            if (err.length > 0) {
+                return this.httpResponse.Error(res,err)
+            }else{
+                next()
+            }
+        })
         
     }
 }

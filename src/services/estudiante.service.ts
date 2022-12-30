@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { EstudianteDTO } from "../dto/estudiante.dto";
 import { EstudianteEntity } from "../models/estudiante.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class EstudianteService extends ServiceBase<EstudianteEntity> implements CRUD<EstudianteEntity, EstudianteDTO>{
     constructor(){

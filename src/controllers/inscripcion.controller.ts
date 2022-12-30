@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { InscripcionService } from "../services/inscripcion.service";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 
 export class InscripcionController{
     constructor(

@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { EventoDTO } from "../dto/evento.dto";
 import { EventoEntity } from "../models/evento.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class EventoService extends ServiceBase<EventoEntity> implements CRUD<EventoEntity, EventoDTO>{
     constructor(){

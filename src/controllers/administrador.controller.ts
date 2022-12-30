@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AdministradorService } from "../services/administrador.service";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
 
 export class AdministradorController{

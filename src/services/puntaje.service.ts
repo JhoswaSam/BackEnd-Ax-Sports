@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { PuntajeDTO } from "../dto/puntaje.dto";
 import { PuntajeEntity } from "../models/puntaje.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class PuntajeService extends ServiceBase<PuntajeEntity> implements CRUD<PuntajeEntity, PuntajeDTO>{
     constructor(){

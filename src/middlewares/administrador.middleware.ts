@@ -1,6 +1,6 @@
 import { NextFunction ,Request, Response } from "express";
 import { validate } from "class-validator";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 import { AdministradorDTO } from "../dto/administrador.dto";
 
 export class AdministradorMiddleware{

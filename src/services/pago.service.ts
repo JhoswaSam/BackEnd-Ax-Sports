@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { PagoDTO } from "../dto/pago.dto";
 import { PagoEntity } from "../models/pago.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class PagoService extends ServiceBase<PagoEntity> implements CRUD<PagoEntity, PagoDTO>{
     constructor(){

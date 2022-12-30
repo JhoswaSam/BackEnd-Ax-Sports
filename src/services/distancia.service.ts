@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { DistanciaDTO } from "../dto/distancia.dto";
 import { DistanciaEntity } from "../models/distancia.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class DistanciaService extends ServiceBase<DistanciaEntity> implements CRUD<DistanciaEntity, DistanciaDTO>{
     constructor(){

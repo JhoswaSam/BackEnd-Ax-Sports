@@ -1,7 +1,7 @@
 import { ServiceBase } from "../config/base.service";
 import { TipoDTO } from "../dto/tipo.dto";
 import { TipoEntity } from "../models/tipo.entity";
-import { CRUD } from "../app/interfaces/crud.interface";
+import { CRUD } from "../shared/interfaces/crud.interface";
 
 export class TipoService extends ServiceBase<TipoEntity> implements CRUD<TipoEntity, TipoDTO>{
     constructor(){

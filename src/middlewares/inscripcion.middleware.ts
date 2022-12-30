@@ -1,7 +1,7 @@
 import { NextFunction ,Request, Response } from "express";
 import { SedeDTO } from "../dto/sede.dto";
 import { validate } from "class-validator";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 import { InscripcionDTO } from "../dto/inscripcion.dto";
 
 export class InscripcionMiddleware{

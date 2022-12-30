@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AuthAdminService } from "../services/authAdmin.service";
-import { HttpResponse } from "../../app/response/http.response";
+import { HttpResponse } from "../../shared/response/http.response";
 
 import { Strategy as JwtStr, StrategyOptions, ExtractJwt } from "passport-jwt"
 import { AdministradorEntity } from "../../models/administrador.entity";

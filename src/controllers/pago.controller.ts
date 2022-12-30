@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PagoService } from "../services/pago.service";
-import { HttpResponse } from "../app/response/http.response";
+import { HttpResponse } from "../shared/response/http.response";
 
 export class PagoController{
     constructor(
