@@ -15,6 +15,10 @@ export class AuthAdminRouter extends RouterBase<AuthAdminController,LoginValidat
         this.router.post("/logout",(req, res) =>
             this.controller.postLogout(req, res)
         );
+
+        this.router.get("/isSuper",(req, res) =>
+            this.controller.isSuper(req, res)
+        );
         
     }
 }

@@ -3,7 +3,7 @@ import { Column } from "typeorm"
 
 export abstract class UsuarioEntity extends EntityBase{
     
-    @Column()
+    @Column({ unique: true })
     usuario!:string;
 
     @Column({select: false})

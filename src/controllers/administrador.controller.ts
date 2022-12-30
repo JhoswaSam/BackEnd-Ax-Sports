@@ -2,19 +2,33 @@ import { Request, Response } from "express";
 import { AdministradorService } from "../services/administrador.service";
 import { HttpResponse } from "../shared/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
+import { AuthAdminService } from "../auth/services/authAdmin.service";
 
 export class AdministradorController{
     constructor(
         private readonly administradorService: AdministradorService = new AdministradorService(), 
-        private readonly httpResponse: HttpResponse = new HttpResponse()
+        private readonly httpResponse: HttpResponse = new HttpResponse(),
+        private readonly auth:AuthAdminService = new AuthAdminService()
     ){    }
 
     async getAdministradors(req: Request, res: Response) {
         try {
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
+
             const data = await this.administradorService.findAll();
             if (data.length === 0) {
                 return this.httpResponse.NotFound(res, "No existen datos")
             }
+
             return this.httpResponse.Ok(res, data)
         } catch (e) {
             return this.httpResponse.NotFound(res, e)
@@ -37,7 +51,11 @@ export class AdministradorController{
     async createAdministrador(req: Request, res: Response) {
         try {
             const data = await this.administradorService.create(req.body);
-            return this.httpResponse.Ok(res, data)
+            if (data) {
+                return this.httpResponse.Ok(res, data)
+            }else{
+                return this.httpResponse.UserExists(res,"El usuario ya existe")
+            }
         } catch (e) {
             return this.httpResponse.NotFound(res, e)
         }
@@ -64,7 +82,7 @@ export class AdministradorController{
             const data: DeleteResult = await this.administradorService.delete(id);
 
             if (!data.affected) {
-                return this.httpResponse.NotFound(res, "Hay un error al actualizar")
+                return this.httpResponse.NotFound(res, "Hay un error al eliminar")
             }
 
             return this.httpResponse.Ok(res, data)

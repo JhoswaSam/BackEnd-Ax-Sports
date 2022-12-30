@@ -5,6 +5,8 @@ import { AdministradorService } from "../../services/administrador.service";
 import { AdministradorEntity } from "../../models/administrador.entity";
 import { PayloadTokenAdmin } from "../../shared/interfaces/authAdmin.interface";
 
+import { verify, JwtPayload } from "jsonwebtoken";
+
 export class AuthAdminService extends ConfigServer{
     constructor(
         private readonly administradorService: AdministradorService = new AdministradorService(),
@@ -17,17 +19,6 @@ export class AuthAdminService extends ConfigServer{
         const user = await this.administradorService.findUser(usuario);
         if (user) {
             const isIqual = await bcrypt.compare(contrasenia,user.contrasenia);
-            if(isIqual){
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public async validateUser(User: AdministradorEntity): Promise<AdministradorEntity| null>{
-        const user = await this.administradorService.findUser(User.usuario);
-        if (user) {
-            const isIqual = await bcrypt.compare(User.contrasenia,user.contrasenia);
             if(isIqual){
                 return user;
             }
@@ -53,4 +44,20 @@ export class AuthAdminService extends ConfigServer{
             user: userConsult
         };
     }
+
+    public async verifiedIsSuper(token: any):Promise<boolean>{
+
+        const tipoAdmin = verify(token,this.getEnviroment("JWT_SECRET"))
+        const data = JSON.stringify(tipoAdmin)
+        const tipo = JSON.parse(data).tipo
+
+        if (!tipo) {
+            return false
+        }
+        if (tipo!=="super") {
+            return false
+        }
+        return true
+    }
+
 }

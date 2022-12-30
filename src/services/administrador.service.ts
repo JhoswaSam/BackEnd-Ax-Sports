@@ -17,16 +17,68 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
     async findbyid(id: string){
         return (await this.execRepository).findOne({where: { id } });
     }
-
+    
     async create(body: AdministradorDTO){
         const newAdmin = (await this.execRepository).create(body);
+
+        // Ponemos el dni como contraseña
+        newAdmin.contrasenia = newAdmin.dni
+
+        // Encriptamos la contraseña
         const hast = await bcrypt.hash(newAdmin.contrasenia, 10);
-        newAdmin.contrasenia = hast;
-        return (await this.execRepository).save(newAdmin);
+
+        // Creamos el usuario
+        const letraNombre = newAdmin.nombre.split(' ')[0].charAt(0).toLowerCase()
+        const apellido = newAdmin.apellidos.split(' ')[0].toLowerCase()
+        const correo = letraNombre+apellido+'@gmail.com'
+
+        // verificamos si el usuario existe 
+        let exist = await this.findUsuario(correo)
+
+        if (exist) {
+            return null
+        }else{
+
+            newAdmin.usuario = correo
+            newAdmin.contrasenia = hast;
+    
+            return (await this.execRepository).save(newAdmin);
+        }
+
+    }
+
+    async createAux(body: AdministradorDTO){
+        const newAdmin = (await this.execRepository).create(body);
+
+        // Ponemos el dni como contraseña
+        newAdmin.contrasenia = newAdmin.dni
+
+        // Encriptamos la contraseña
+        const hast = await bcrypt.hash(newAdmin.contrasenia, 10);
+
+        // Creamos el usuario
+        const letraNombre = newAdmin.nombre.split(' ')[0].charAt(0).toLowerCase()
+        const apellido = newAdmin.apellidos.split(' ')[0].toLowerCase()
+        const correo = letraNombre+apellido+'@gmail.com'
+
+        // verificamos si el usuario existe 
+        let exist = await this.findUsuario(correo)
+
+        if (exist) {
+            return true
+        }else{
+            return false
+        }
+
+
+        return 
     }
 
     async update(id:string, body:AdministradorDTO){
-        return (await this.execRepository).update(id,body);
+        const newAdmin = (await this.execRepository).create(body);
+        const hast = await bcrypt.hash(newAdmin.contrasenia, 10);
+        newAdmin.contrasenia = hast;
+        return (await this.execRepository).update(id,newAdmin);
     }
 
     async delete(id:string){
@@ -54,6 +106,16 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
             .getOne()
         
         return Admin;
+    }
+
+    async findUsuario(usuario: string):Promise<AdministradorEntity|null>{
+        const admin = (await this.execRepository)
+        .createQueryBuilder("administrador")
+        .addSelect("administrador.usuario")
+        .where({ usuario })
+        .getOne();
+
+        return admin
     }
 
 }

@@ -14,26 +14,6 @@ export class AuthAdminController extends AuthAdminService{
         super();
     }
 
-    async login(req:Request, res: Response){
-        try {
-            
-            const adminEncode = req.body
-            const encode = await this.generateJWT(adminEncode);
-
-            if (!encode) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-
-            res.header("Content-Type", "application/json");
-            res.cookie("accessToken", encode.accessToken, {maxAge: 60000*60});
-            res.write(JSON.stringify(encode));
-            res.end();
-        } catch (error) {
-            console.error(error);
-            return this.httpResponse.Error(res,error)
-        }
-    }
-
     async postLogin(req:Request,res:Response){
         try {
             const {usuario,contrasenia} = req.body
@@ -60,17 +40,24 @@ export class AuthAdminController extends AuthAdminService{
 
     async postLogout(req:Request,res:Response){
         try {
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-            const data = verify(token,this.getEnviroment("JWT_SECRET"))
-            return this.httpResponse.Ok(res,data)
-          
+            res.clearCookie("accessToken");
+            return this.httpResponse.Ok(res,"Logaout success")
+            
         } catch (error) {
             console.error(error);
             return this.httpResponse.Error(res,error)
         }
+    }
+
+    async isSuper(req:Request,res:Response){
+        const token = req.cookies.accessToken
+        if (!token) {
+            return this.httpResponse.Unauthorized(res,"No tienes permisos");
+        }
+
+        const data = await this.verifiedIsSuper(token);
+        return this.httpResponse.Ok(res,data)
+
     }
 
 

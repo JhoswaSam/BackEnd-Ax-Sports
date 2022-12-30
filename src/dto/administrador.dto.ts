@@ -21,10 +21,10 @@ export class AdministradorDTO extends DTOBase{
     @IsOptional()
     fechaNacimiento?:Date;
 
-    @IsNotEmpty()
+    @IsOptional()
     usuario!:string;
 
-    @IsNotEmpty()
+    @IsOptional()
     contrasenia!:string;
 
     @IsNotEmpty()
