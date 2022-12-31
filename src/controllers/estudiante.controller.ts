@@ -12,19 +12,7 @@ export class EstudianteController{
 
     async getEstudiantes(req: Request, res: Response) {
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
-
+            
             const data = await this.estudianteService.findAll();
             if (data.length === 0) {
                 return this.httpResponse.NotFound(res, "No existen datos")
@@ -38,18 +26,7 @@ export class EstudianteController{
     async getEstudianteById(req: Request, res: Response) {
         const {id}= req.params;
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-    
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-    
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
+            
             const data = await this.estudianteService.findbyid(id);
             if (!data) {
                 return this.httpResponse.NotFound(res, "No existe datos")

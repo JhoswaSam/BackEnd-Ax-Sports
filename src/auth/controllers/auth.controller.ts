@@ -11,7 +11,6 @@ export class AuthAdminController extends AuthAdminService{
 
     async postLogin(req:Request,res:Response){
         try {
-
             const {usuario,contrasenia} = req.body
 
             const dataResult = await this.validateUser(usuario,contrasenia)
@@ -39,38 +38,57 @@ export class AuthAdminController extends AuthAdminService{
 
     async postLogout(req:Request,res:Response){
         try {
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No se pudo cerrar la sesion");
+            }
+
+            // Si existe el token de log entonces lo borramos para cerrar sesion
             res.clearCookie("accessToken");
-            return this.httpResponse.Ok(res,"Logaout success")
+            return this.httpResponse.Ok(res,"Salio de su sesion")
             
         } catch (error) {
-            console.error(error);
             return this.httpResponse.Error(res,error)
         }
     }
 
-
-
-    async isSuper(req:Request,res:Response){
-        const token = req.cookies.accessToken
-        if (!token) {
-            return this.httpResponse.Unauthorized(res,"No tienes permisos");
+    async profile(req:Request,res:Response){
+        try {
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"Inicie sesion primero");
+            }
+             
+            const profile = await this.dataProfile(token);
+            return this.httpResponse.Ok(res,profile)
+            
+        } catch (error) {
+            
+            return this.httpResponse.Error(res,error)
+            
         }
-
-        const data = await this.verifiedIsSuper(token);
-        return this.httpResponse.Ok(res,data)
 
     }
 
-    async isDocente(req:Request,res:Response){
-        const token = req.cookies.accessToken
-        if (!token) {
-            return this.httpResponse.Unauthorized(res,"No tienes permisos");
+    async updateProfile(req:Request,res:Response){
+
+        try {
+            
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"Inicie sesion primero");
+            }
+
+            return this.httpResponse.Ok(res,"Actualizar en desarrollo")
+        } catch (error) {
+            return this.httpResponse.Error(res,error)
+            
         }
 
-        const data = await this.verifiedIsDocente(token);
-        return this.httpResponse.Ok(res,data)
 
     }
-
 
 }

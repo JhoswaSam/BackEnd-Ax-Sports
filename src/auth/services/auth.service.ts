@@ -8,13 +8,15 @@ import { PayloadTokenAdmin } from "../../shared/interfaces/authAdmin.interface";
 import { verify, JwtPayload } from "jsonwebtoken";
 import { EstudianteService } from "../../services/estudiante.service";
 import { ResponsableEconomicoService } from "../../services/responsableEconomico.service";
+import { GuardService } from "../guards/verified.guard";
 
 export class AuthAdminService extends ConfigServer{
     constructor(
         private readonly administradorService: AdministradorService = new AdministradorService(),
         private readonly estudianteService: EstudianteService = new EstudianteService(),
         private readonly responsableService: ResponsableEconomicoService = new ResponsableEconomicoService(),
-        private readonly jwtInstance = jwt
+        private readonly guard:GuardService = new GuardService(),
+        private readonly jwtInstance = jwt,
     ){
         super();
     }
@@ -49,7 +51,6 @@ export class AuthAdminService extends ConfigServer{
     public async generateJWT(user: any):Promise<{accessToken: string; user: any}>{
         
         const userConsult = await this.administradorService.findAdminWithTipo(user.usuario);
-        
         const userEstudent = await this.estudianteService.findUser(user.usuario);
         const userResponsible = await this.responsableService.findUser(user.usuario);
 
@@ -94,38 +95,10 @@ export class AuthAdminService extends ConfigServer{
 
     }
 
+    public async dataProfile(token:string):Promise<any>{
+        const profile = await this.guard.setDataProfile(token)
 
-
-    public async verifiedIsSuper(token: any):Promise<boolean>{
-
-        const tipoAdmin = verify(token,this.getEnviroment("JWT_SECRET"))
-        const data = JSON.stringify(tipoAdmin)
-        const tipo = JSON.parse(data).tipo
-
-        if (!tipo) {
-            return false
-        }
-        if (tipo!=="super") {
-            return false
-        }
-        return true
+        return profile
     }
-
-    public async verifiedIsDocente(token: any):Promise<boolean>{
-
-        const tipoAdmin = verify(token,this.getEnviroment("JWT_SECRET"))
-        const data = JSON.stringify(tipoAdmin)
-        const tipo = JSON.parse(data).tipo
-
-        if (!tipo) {
-            return false
-        }
-        if (tipo!=="docente") {
-            return false
-        }
-        return true
-    }
-
-    
 
 }

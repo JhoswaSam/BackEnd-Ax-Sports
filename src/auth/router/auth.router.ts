@@ -12,17 +12,17 @@ export class AuthAdminRouter extends RouterBase<AuthAdminController,LoginValidat
             this.controller.postLogin(req, res)
         );
 
-        this.router.post("/logout",(req, res) =>
+        this.router.get("/logout",(req, res) =>
             this.controller.postLogout(req, res)
         );
 
-        this.router.get("/isSuper",(req, res) =>
-            this.controller.isSuper(req, res)
+        this.router.get("/profile",(req, res) =>
+            this.controller.profile(req, res)
         );
 
-        this.router.get("/isDocente",(req, res) =>
-            this.controller.isDocente(req, res)
+        this.router.post("/updateProfile",(req, res) =>
+            this.controller.updateProfile(req, res)
         );
-        
+
     }
 }

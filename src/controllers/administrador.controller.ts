@@ -13,19 +13,7 @@ export class AdministradorController{
 
     async getAdministradors(req: Request, res: Response) {
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
-
+            
 
             const data = await this.administradorService.findAll();
             if (data.length === 0) {
@@ -42,18 +30,7 @@ export class AdministradorController{
         
         const {id}= req.params;
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-    
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-    
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
+            
             const data = await this.administradorService.findbyid(id);
             if (!data) {
                 return this.httpResponse.NotFound(res, "No existe datos")
@@ -67,18 +44,7 @@ export class AdministradorController{
     async createAdministrador(req: Request, res: Response) {
         
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-    
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-    
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
+            
             const data = await this.administradorService.create(req.body);
             if (data) {
                 return this.httpResponse.Ok(res, data)
@@ -94,18 +60,7 @@ export class AdministradorController{
         
         const {id}= req.params;
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-    
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-    
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
+            
             const data: UpdateResult = await this.administradorService.update(id,req.body);
 
             if (!data.affected) {
@@ -122,18 +77,7 @@ export class AdministradorController{
         
         const {id}= req.params;
         try {
-            // Valid token
-            const token = req.cookies.accessToken
-            if (!token) {
-                return this.httpResponse.Unauthorized(res,"No tienes permisos");
-            }
-    
-            // Valid super
-            const validSuper = await this.auth.verifiedIsSuper(token);
-    
-            if (!validSuper) {
-                return this.httpResponse.Unauthorized(res,"No tiene permisos")
-            }
+            
             const data: DeleteResult = await this.administradorService.delete(id);
 
             if (!data.affected) {
@@ -149,7 +93,6 @@ export class AdministradorController{
     async findAdministradorWithTipo(req: Request, res: Response) {
         const {id}= req.params;
         try {
-            
 
             const data = await this.administradorService.findAdminWithTipo(id);
             if (!data) {
@@ -161,5 +104,5 @@ export class AdministradorController{
         }
     }
 
-    
+
 }
