@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthAdminService } from "../services/authAdmin.service";
+import { AuthAdminService } from "../services/auth.service";
 import { HttpResponse } from "../../shared/response/http.response";
 
 import { Strategy as JwtStr, StrategyOptions, ExtractJwt } from "passport-jwt"
@@ -16,12 +16,16 @@ export class AuthAdminController extends AuthAdminService{
 
     async postLogin(req:Request,res:Response){
         try {
+
             const {usuario,contrasenia} = req.body
-            const dataResult = await this.validateAdmin(usuario,contrasenia)
+
+            const dataResult = await this.validateUser(usuario,contrasenia)
+
             if (!dataResult) {
                 return this.httpResponse.UserDenied(res,"Usuario y/o contraseña incorrectos")
             }
 
+            
             const encode = await this.generateJWT(dataResult);
             if (!encode) {
                 return this.httpResponse.Unauthorized(res,"No tienes permisos");
@@ -49,6 +53,8 @@ export class AuthAdminController extends AuthAdminService{
         }
     }
 
+
+
     async isSuper(req:Request,res:Response){
         const token = req.cookies.accessToken
         if (!token) {
@@ -56,6 +62,17 @@ export class AuthAdminController extends AuthAdminService{
         }
 
         const data = await this.verifiedIsSuper(token);
+        return this.httpResponse.Ok(res,data)
+
+    }
+
+    async isDocente(req:Request,res:Response){
+        const token = req.cookies.accessToken
+        if (!token) {
+            return this.httpResponse.Unauthorized(res,"No tienes permisos");
+        }
+
+        const data = await this.verifiedIsDocente(token);
         return this.httpResponse.Ok(res,data)
 
     }

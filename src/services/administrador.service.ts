@@ -30,7 +30,7 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
         // Creamos el usuario
         const letraNombre = newAdmin.nombre.split(' ')[0].charAt(0).toLowerCase()
         const apellido = newAdmin.apellidos.split(' ')[0].toLowerCase()
-        const correo = letraNombre+apellido+'@gmail.com'
+        const correo = letraNombre+apellido+"_admin"+'@gmail.com'
 
         // verificamos si el usuario existe 
         let exist = await this.findUsuario(correo)
@@ -45,33 +45,6 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
             return (await this.execRepository).save(newAdmin);
         }
 
-    }
-
-    async createAux(body: AdministradorDTO){
-        const newAdmin = (await this.execRepository).create(body);
-
-        // Ponemos el dni como contraseña
-        newAdmin.contrasenia = newAdmin.dni
-
-        // Encriptamos la contraseña
-        const hast = await bcrypt.hash(newAdmin.contrasenia, 10);
-
-        // Creamos el usuario
-        const letraNombre = newAdmin.nombre.split(' ')[0].charAt(0).toLowerCase()
-        const apellido = newAdmin.apellidos.split(' ')[0].toLowerCase()
-        const correo = letraNombre+apellido+'@gmail.com'
-
-        // verificamos si el usuario existe 
-        let exist = await this.findUsuario(correo)
-
-        if (exist) {
-            return true
-        }else{
-            return false
-        }
-
-
-        return 
     }
 
     async update(id:string, body:AdministradorDTO){

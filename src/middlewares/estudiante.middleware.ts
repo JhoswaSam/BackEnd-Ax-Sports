@@ -11,7 +11,7 @@ export class EstudianteMiddleware{
     ){  }
     
     EstudianteValidator(req: Request, res: Response, next: NextFunction){
-        const {nombre, apellidos, dni, telefono, fechaNacimiento,usuario,contrasenia,sexo,sede} = req.body;
+        const {nombre, apellidos, dni, telefono,usuario,contrasenia,sexo,sede} = req.body;
 
         const valid = new EstudianteDTO()
 
@@ -19,7 +19,6 @@ export class EstudianteMiddleware{
         valid.apellidos = apellidos;
         valid.dni = dni;
         valid.telefono = telefono;
-        valid.fechaNacimiento = fechaNacimiento;
         valid.usuario = usuario;
         valid.contrasenia = contrasenia;
         valid.sexo = sexo;

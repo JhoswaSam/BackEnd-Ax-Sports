@@ -2,15 +2,30 @@ import { Request, Response } from "express";
 import { DistanciaService } from "../services/distancia.service";
 import { HttpResponse } from "../shared/response/http.response";
 import { DeleteResult, UpdateResult } from "typeorm";
+import { AuthAdminService } from "../auth/services/auth.service";
 
 export class DistanciaController{
     constructor(
         private readonly distanciaService: DistanciaService = new DistanciaService(), 
-        private readonly httpResponse: HttpResponse = new HttpResponse()
+        private readonly httpResponse: HttpResponse = new HttpResponse(),
+        private readonly auth:AuthAdminService = new AuthAdminService()
     ){   }
 
     async getDistancias(req: Request, res: Response) {
         try {
+            // Valid token
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            // Valid super
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
+
             const data = await this.distanciaService.findAll();
             if (data.length ===0) {
                 return this.httpResponse.NotFound(res, "No existen datos")
@@ -22,8 +37,21 @@ export class DistanciaController{
     }
 
     async getDistanciaById(req: Request, res: Response) {
+        
         const {id}= req.params;
         try {
+            // Valid token
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            // Valid super
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
             const data = await this.distanciaService.findbyid(id);
             if (!data) {
                 return this.httpResponse.NotFound(res, "No existe datos")
@@ -36,6 +64,18 @@ export class DistanciaController{
 
     async createDistancia(req: Request, res: Response) {
         try {
+            // Valid token
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            // Valid super
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
             const data = await this.distanciaService.create(req.body);
             return this.httpResponse.Ok(res, data)
         } catch (e) {
@@ -46,6 +86,18 @@ export class DistanciaController{
     async updateDistancia(req: Request, res: Response) {
         const {id}= req.params;
         try {
+            // Valid token
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            // Valid super
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
             const data = await this.distanciaService.update(id,req.body);
             
             if (!data.affected) {
@@ -61,6 +113,18 @@ export class DistanciaController{
     async deteleDistancia(req: Request, res: Response) {
         const {id}= req.params;
         try {
+            // Valid token
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"No tienes permisos");
+            }
+
+            // Valid super
+            const validSuper = await this.auth.verifiedIsSuper(token);
+
+            if (!validSuper) {
+                return this.httpResponse.Unauthorized(res,"No tiene permisos")
+            }
             const data = await this.distanciaService.delete(id);
             
             if (!data.affected) {

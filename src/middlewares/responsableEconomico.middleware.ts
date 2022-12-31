@@ -9,12 +9,10 @@ export class ResponsableEconomicoMiddleware{
     constructor(private readonly httpResponse: HttpResponse = new HttpResponse()){}
     
     ResponsableEconomicoValidator(req: Request, res: Response, next: NextFunction){
-        const {usuario,contrasenia,nombre,apellidos} = req.body;
+        const {nombre,apellidos} = req.body;
 
         const valid = new ResponsableEconomicoDTO()
 
-        valid.usuario = usuario;
-        valid.contrasenia= contrasenia;
         valid.nombre = nombre;
         valid.apellidos = apellidos;
 

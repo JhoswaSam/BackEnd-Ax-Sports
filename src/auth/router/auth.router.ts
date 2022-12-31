@@ -1,4 +1,4 @@
-import { AuthAdminController } from "../controllers/authAdmin.controller";
+import { AuthAdminController } from "../controllers/auth.controller";
 import { RouterBase } from "../../config/router";
 import { LoginValidatorMiddleware } from "../middleware/LoginValidator.middleware";
 
@@ -18,6 +18,10 @@ export class AuthAdminRouter extends RouterBase<AuthAdminController,LoginValidat
 
         this.router.get("/isSuper",(req, res) =>
             this.controller.isSuper(req, res)
+        );
+
+        this.router.get("/isDocente",(req, res) =>
+            this.controller.isDocente(req, res)
         );
         
     }

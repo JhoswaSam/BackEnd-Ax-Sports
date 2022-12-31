@@ -1,12 +1,12 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { DTOBase } from "../config/base.dto";
 
 export class ResponsableEconomicoDTO extends DTOBase{
 
-    @IsNotEmpty()
+    @IsOptional()
     usuario!:string;
 
-    @IsNotEmpty()
+    @IsOptional()
     contrasenia!:string;
    
     @IsNotEmpty()

@@ -15,7 +15,7 @@ import { PuntajeRouter } from "./router/puntaje.route";
 import { PagoRouter } from "./router/pago.route";
 import { InscripcionRouter } from "./router/inscripcion.route";
 import { DataSource } from "typeorm";
-import { AuthAdminRouter } from "./auth/router/authAdmin.router";
+import { AuthAdminRouter } from "./auth/router/auth.router";
 import cookieParser from "cookie-parser";
 
 

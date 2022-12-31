@@ -1,9 +1,7 @@
 import { NextFunction ,Request, Response } from "express";
-import { Validate, validate } from "class-validator";
+import { validate } from "class-validator";
 import { HttpResponse } from "../../shared/response/http.response";
-import { AdministradorDTO } from "../../dto/administrador.dto";
-import { AuthAdminService } from "../services/authAdmin.service";
-import { AdministradorEntity } from "../../models/administrador.entity";
+import { AuthAdminService } from "../services/auth.service";
 import { UserDto } from "../dto/user.dto";
 
 
