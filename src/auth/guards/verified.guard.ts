@@ -60,10 +60,10 @@ export class GuardService extends ConfigServer{
 
         switch (tipo) {
             case 1:
-                data = this.adminService.findbyid(id);
+                data = this.adminService.findAdminWithRelationsById(id);
                 break;
             case 2:
-                data = this.adminService.findbyid(id);
+                data = this.adminService.findAdminWithRelationsById(id);
                 break;
             case 3:
                 data = this.studentService.findbyid(id);

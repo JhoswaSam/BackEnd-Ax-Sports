@@ -71,10 +71,20 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
 
     }
 
+    async findAdminWithRelationsById(id:string):Promise<AdministradorEntity|null>{
+        return (await this.execRepository)
+            .createQueryBuilder("administrador")
+            .leftJoinAndSelect('administrador.tipo','tipo')
+            .leftJoinAndSelect('administrador.sede','sede')
+            .where({id})
+            .getOne()
+    }
+
     async findAdminWithTipo(usuario:string):Promise<AdministradorEntity|null>{
         const Admin = (await this.execRepository)
             .createQueryBuilder("administrador")
             .leftJoinAndSelect('administrador.tipo','tipo')
+            .leftJoinAndSelect('administrador.sede','sede')
             .where({usuario})
             .getOne()
         

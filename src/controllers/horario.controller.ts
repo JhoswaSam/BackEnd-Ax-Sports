@@ -1,15 +1,23 @@
 import { Request, Response } from "express";
 import { HorarioService } from "../services/horario.service";
 import { HttpResponse } from "../shared/response/http.response";
+import { GuardService } from "../auth/guards/verified.guard";
 
 export class HorarioController{
     constructor(
         private readonly horarioService: HorarioService = new HorarioService(), 
-        private readonly httpResponse: HttpResponse = new HttpResponse()
+        private readonly httpResponse: HttpResponse = new HttpResponse(),
+        private readonly auth:GuardService = new GuardService()
     ){   }
 
     async getHorarios(req: Request, res: Response) {
         try {
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"Inicie sesion primero");
+            }
+            
             const data = await this.horarioService.findAll();
             if (data.length === 0) {
                 return this.httpResponse.NotFound(res, "No existen datos")
