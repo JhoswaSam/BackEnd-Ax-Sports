@@ -25,13 +25,13 @@ Deyvis Jhoswa Samanez Ccoscco
 
 ### LEYENDA
 
-L       -  Listar
-B       -  Buscar por Id
-C       -  Crear 
-E       -  Editar/Actualizar
-D       -  Eliminar
-P       -  Perfil
-EP-T    -  Editar/Actualizar perfil(para administradores sin cambiar el tipo)
-EP      -  Editar
-LE      -  Listar estudiantes(solo para responsables que tengan estudiantes asigandos)
-LR      -  Listar responsable(solo para estudiantes que tengan un responsble asignado)
+* L       -  Listar
+* B       -  Buscar por Id
+* C       -  Crear 
+* E       -  Editar/Actualizar
+* D       -  Eliminar
+* P       -  Perfil
+* EP-T    -  Editar/Actualizar perfil(para administradores sin cambiar el tipo)
+* EP      -  Editar
+* LE      -  Listar estudiantes(solo para responsables que tengan estudiantes asigandos)
+* LR      -  Listar responsable(solo para estudiantes que tengan un responsble asignado)
