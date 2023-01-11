@@ -8,7 +8,8 @@ export class AuthAdminRouter extends RouterBase<AuthAdminController,LoginValidat
     }
 
     routers():void{
-        this.router.post("/login",(req,res,next)=>[this.middleware.validateAdmin(req,res,next)],(req, res) =>
+        this.router.post("/login",(req,res,next) =>
+            [this.middleware.validateAdmin(req,res,next)],(req, res) =>
             this.controller.postLogin(req, res)
         );
 
@@ -23,6 +24,8 @@ export class AuthAdminRouter extends RouterBase<AuthAdminController,LoginValidat
         this.router.post("/updateProfile",(req, res) =>
             this.controller.updateProfile(req, res)
         );
+
+        
 
     }
 }

@@ -13,6 +13,12 @@ export class AuthAdminController extends AuthAdminService{
         try {
             const {usuario,contrasenia} = req.body
 
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (token) {
+                return this.httpResponse.Unauthorized(res,"Hay una sesion abierta");
+            }
+
             const dataResult = await this.validateUser(usuario,contrasenia)
 
             if (!dataResult) {
@@ -91,4 +97,5 @@ export class AuthAdminController extends AuthAdminService{
 
     }
 
+    
 }

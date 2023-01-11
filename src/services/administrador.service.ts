@@ -101,4 +101,12 @@ export class AdministradorService extends ServiceBase<AdministradorEntity> imple
         return admin
     }
 
+    async mySchedules(id: string):Promise<AdministradorEntity|null>{
+        return (await this.execRepository)
+        .createQueryBuilder("administrador")
+        .leftJoinAndSelect('administrador.horarios','horario')
+        .where({ id })
+        .getOne();
+    }
+
 }

@@ -74,4 +74,20 @@ export class ResponsableEconomicoService extends ServiceBase<ResponsableEconomic
         .getOne();
     }
 
+    async misPagos(id:string):Promise<any>{
+        return (await this.execRepository)
+            .createQueryBuilder("responsableEconomico")
+            .leftJoinAndSelect("responsableEconomico.pagos","pago")
+            .where({id})
+            .getOne();
+    }
+
+    async misHijos(id:string):Promise<any>{
+        return (await this.execRepository)
+            .createQueryBuilder("responsableEconomico")
+            .leftJoinAndSelect("responsableEconomico.estudiantes","estudiante")
+            .where({id})
+            .getOne();
+    }
+    
 }

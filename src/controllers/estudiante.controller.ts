@@ -40,7 +40,7 @@ export class EstudianteController{
         }
     }
 
-    /* async getEstudianteById(req: Request, res: Response) {
+    async getEstudianteById(req: Request, res: Response) {
         const {id}= req.params;
         try {
             
@@ -52,7 +52,7 @@ export class EstudianteController{
         } catch (e) {
             return this.httpResponse.NotFound(res, e)
         }
-    } */
+    }
 
     async createEstudiante(req: Request, res: Response) {
         try {
@@ -162,4 +162,5 @@ export class EstudianteController{
             return this.httpResponse.NotFound(res, e)
         }
     }
+
 }

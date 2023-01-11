@@ -17,6 +17,7 @@ import { InscripcionRouter } from "./router/inscripcion.route";
 import { DataSource } from "typeorm";
 import { AuthAdminRouter } from "./auth/router/auth.router";
 import cookieParser from "cookie-parser";
+import { ExtentionsRouter } from "./user extensions/routers/userExtentions.router";
 
 
 /**
@@ -65,6 +66,7 @@ class ServerBootstrap extends ConfigServer{
             new PagoRouter().router,
             new InscripcionRouter().router,
             new AuthAdminRouter().router,
+            new ExtentionsRouter().router,
         ];
     }
 

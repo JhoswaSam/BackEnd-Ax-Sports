@@ -85,4 +85,12 @@ export class EstudianteService extends ServiceBase<EstudianteEntity> implements 
         .getOne();
     }
 
+    async misPagos(id:string):Promise<any>{
+        return (await this.execRepository)
+            .createQueryBuilder("estudiante")
+            .leftJoinAndSelect("estudiante.pagos","pago")
+            .where({id})
+            .getOne();
+    }
+
 }

@@ -1,20 +1,34 @@
 import { Request, Response } from "express";
 import { PagoService } from "../services/pago.service";
 import { HttpResponse } from "../shared/response/http.response";
+import { GuardService } from "../auth/guards/verified.guard";
 
 export class PagoController{
     constructor(
         private readonly pagoService: PagoService = new PagoService(), 
-        private readonly httpResponse: HttpResponse = new HttpResponse()
+        private readonly httpResponse: HttpResponse = new HttpResponse(),
+        private readonly auth:GuardService = new GuardService()
     ){  }
 
     async getPagos(req: Request, res: Response) {
         try {
-            const data = await this.pagoService.findAll();
-            if (data.length === 0) {
-                return this.httpResponse.NotFound(res, "No existen datos")
+            // Verificamos si esta logeado o no 
+            const token = req.cookies.accessToken
+            if (!token) {
+                return this.httpResponse.Unauthorized(res,"Inicie sesion primero");
             }
-            return this.httpResponse.Ok(res, data)
+
+            const typeUser = await this.auth.setPermissions(token);
+            if (typeUser === 1 ) {
+                const data = await this.pagoService.findAll();
+                if (data.length === 0) {
+                    return this.httpResponse.NotFound(res, "No existen datos")
+                }
+                return this.httpResponse.Ok(res, data)
+            }
+            
+            return this.httpResponse.Unauthorized(res,"No tiene permiso para esta accion");
+
         } catch (e) {
             return this.httpResponse.NotFound(res, e)
         }
@@ -69,4 +83,7 @@ export class PagoController{
             return this.httpResponse.NotFound(res, e)
         }
     }
+
+
+    
 }

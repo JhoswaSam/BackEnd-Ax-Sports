@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { InscripcionService } from "../services/inscripcion.service";
 import { HttpResponse } from "../shared/response/http.response";
+import { GuardService } from "../auth/guards/verified.guard";
 
 export class InscripcionController{
     constructor(
         private readonly inscripcionService: InscripcionService = new InscripcionService(), 
-        private readonly httpResponse: HttpResponse = new HttpResponse()
+        private readonly httpResponse: HttpResponse = new HttpResponse(),
+        private readonly auth:GuardService = new GuardService()
     ){  }
 
     async getInscripcions(req: Request, res: Response) {
