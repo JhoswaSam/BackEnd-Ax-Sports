@@ -6,6 +6,22 @@ Proyecto personal para el desarrollo de una plataforma enfocada a las academias 
 
 Deyvis Jhoswa Samanez Ccoscco
 
+## Comandos
+
+Para iniciar la base de datos primero necesitamos inicias cocker compose con el siguiente comando.
+```bash
+docker-compose up
+```
+
+Luego de eso necesitamos crear la imagen y eso lo hacemos con el siguiente comando.
+```bash
+docker build --no-cache --progress=plain -t api-node-ts .
+```
+
+Luego de eso corremos la imagen creada con el siguiente comando.
+```bash
+docker run -it -p 8000:8000 api-node-ts
+```
 
 ## LISTA DE PERMISOS
 
@@ -35,3 +51,5 @@ Deyvis Jhoswa Samanez Ccoscco
 * EP      -  Editar
 * LE      -  Listar estudiantes(solo para responsables que tengan estudiantes asigandos)
 * LR      -  Listar responsable(solo para estudiantes que tengan un responsble asignado)
+
+
